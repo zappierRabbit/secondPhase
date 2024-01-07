@@ -1,41 +1,71 @@
-[![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
+# Sample Project
 
-# my-project
-This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
+## Overview
 
-## Usage
-Start the project with `npm run dev` command. 
-After starting, open the http://localhost:3000/ URL in your browser. 
-On the welcome page you can test the generated services via API Gateway and check the nodes & services.
+This project consists of two microservices, Products Service and Warehouse Service, both designed to manage product information and inventory. The backend database used is MongoDB.
 
-In the terminal, try the following commands:
-- `nodes` - List all connected nodes.
-- `actions` - List all registered service actions.
-- `call greeter.hello` - Call the `greeter.hello` action.
-- `call greeter.welcome --name John` - Call the `greeter.welcome` action with the `name` parameter.
-- `call products.list` - List the products (call the `products.list` action).
+## Microservices
 
+### Products Service
 
-## Services
-- **api**: API Gateway services
-- **greeter**: Sample service with `hello` and `welcome` actions.
-- **products**: Sample DB service. To use with MongoDB, set `MONGO_URI` environment variables and install MongoDB adapter with `npm i moleculer-db-adapter-mongo`.
+#### Endpoints:
 
-## Mixins
-- **db.mixin**: Database access mixin for services. Based on [moleculer-db](https://github.com/moleculerjs/moleculer-db#readme)
+1. **Get Available Products:**
+   - **Method:** GET
+   - **Endpoint:** `/products`
+   - **Description:** Retrieves a list of available products.
 
+2. **Buy a Product:**
+   - **Method:** POST
+   - **Endpoint:** `/products/buy`
+   - **Params:**
+     - `productId` (string): The ID of the product to buy.
+     - `quantity` (number): The quantity of the product to purchase.
+   - **Description:** Allows the purchase of a specified quantity of a product. Updates the product count in the database.
 
-## Useful links
+### Warehouse Service
 
-* Moleculer website: https://moleculer.services/
-* Moleculer Documentation: https://moleculer.services/docs/0.14/
+#### Endpoints:
 
-## NPM scripts
+1. **Get Product Count:**
+   - **Method:** GET
+   - **Endpoint:** `/warehouse/count/:productId`
+   - **Params:**
+     - `productId` (string): The ID of the product to get the count for.
+   - **Description:** Retrieves the count of a product in the warehouse.
 
-- `npm run dev`: Start development mode (load all services locally with hot-reload & REPL)
-- `npm run start`: Start production mode (set `SERVICES` env variable to load certain services)
-- `npm run cli`: Start a CLI and connect to production. Don't forget to set production namespace with `--ns` argument in script
-- `npm run ci`: Run continuous test mode with watching
-- `npm test`: Run tests & generate coverage report
-- `npm run dc:up`: Start the stack with Docker Compose
-- `npm run dc:down`: Stop the stack with Docker Compose
+2. **Update Product Count on Product Buy:**
+   - **Method:** POST
+   - **Endpoint:** `/warehouse/buy`
+   - **Params:**
+     - `productId` (string): The ID of the product to update the count for.
+     - `quantity` (number): The quantity of the product being bought.
+   - **Description:** Updates the product count in the warehouse upon a purchase.
+
+## Getting Started
+
+1. Clone the repository:
+
+2. Navigate to the project folder:
+
+3. Create a `.env` file in the root of the project with the following content:
+
+   ```env
+   MONGO_URI=<your-mongo-db-uri>
+   ```
+
+   Ensure that your MongoDB instance is accessible, or you can use a hosted MongoDB service.
+
+4. Run the project using Docker Compose:
+
+   ```bash
+   npm run dc:up
+   ```
+
+   This command will start the microservices and set up the necessary containers.
+
+## Notes
+
+- The project assumes that MongoDB is hosted on the cloud. Make sure to replace `<your-mongo-db-uri>` in the `.env` file with the actual URI.
+
+- The project can be easily set up using Docker Compose. Use the provided npm script (`npm run dc:up`) to start the project.
