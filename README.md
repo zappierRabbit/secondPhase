@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project consists of two microservices, [Products Service] and [Warehouse Service], both designed to manage product information and inventory. The backend database used is MongoDB.
+This project consists of two microservices, Products Service and Warehouse Service, both designed to manage product information and inventory. The backend database used is MongoDB.
 
 ## Microservices
 
